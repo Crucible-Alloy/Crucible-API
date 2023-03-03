@@ -2,10 +2,14 @@ package dev.adamgemerson.asketch.asketchapi.controller;
 
 import dev.adamgemerson.asketch.asketchapi.models.AlloyFile;
 import dev.adamgemerson.asketch.asketchapi.repository.AlloyFileRepository;
+import dev.adamgemerson.asketch.asketchapi.requests.FileRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 @RestController
 @RequestMapping("/files")
@@ -26,7 +30,9 @@ public class AlloyFileController {
     // POST http://localhost:8080/files
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public AlloyFile create(@RequestParam("filePath") String filePath) {
-        return repository.create(filePath);
+    public AlloyFile create(@RequestBody FileRequest req) {
+        System.out.println(req.getOperatingSystem());
+        System.out.println(req.getFilePath());
+        return repository.create(req.getFilePath(), req.getOperatingSystem());
     }
 }

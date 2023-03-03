@@ -45,8 +45,18 @@ public class AlloyFileRepository {
     }
 
 
-    public AlloyFile create(String filePath) {
-        CompModule world = CompUtil.parseEverything_fromFile(this.reporter, null, filePath);
+    public AlloyFile create(ArrayList<String> filePath, String operatingSystem ) {
+        String path;
+        System.out.println(filePath);
+        if (Objects.equals(operatingSystem, "win32")) {
+            // Windows filepath delimited with '\'
+            path = String.join("\\", filePath);
+        } else {
+            // Mac and linux file paths delimited with '/'
+            path = String.join("/", filePath);
+        }
+        System.out.println(path);
+        CompModule world = CompUtil.parseEverything_fromFile(this.reporter, null, path);
         ArrayList<Atom> atoms = new ArrayList<>();
         ArrayList<AlloyFunction> functions = new ArrayList<>();
 
@@ -108,7 +118,7 @@ public class AlloyFileRepository {
             functions.add(newFunction);
         }
 
-        AlloyFile model = new AlloyFile(filePath, filePath, atoms, functions);
+        AlloyFile model = new AlloyFile(path, path, atoms, functions);
         files.add(model);
         return model;
     }
