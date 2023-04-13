@@ -1,6 +1,7 @@
 package dev.adamgemerson.asketch.asketchapi.repository;
 
 import dev.adamgemerson.asketch.asketchapi.models.*;
+import edu.mit.csail.sdg.alloy4.Pair;
 import edu.mit.csail.sdg.ast.*;
 import edu.mit.csail.sdg.translator.A4Options;
 import edu.mit.csail.sdg.translator.A4Solution;
@@ -108,13 +109,21 @@ public class AlloyFileRepository {
 
         // Find the predicates and add them to our model.
         for (Func func : world.getAllFunc()) {
-            ArrayList<AlloyParameter> parameters = new ArrayList<>();
-            for (Decl decl : func.decls) {
-                AlloyParameter parameter = new AlloyParameter(decl.get().toString(), decl.expr.toString());
-                parameters.add(parameter);
-            }
+            if (func.isPred) {
+                ArrayList<AlloyParameter> parameters = new ArrayList<>();
+                for (Decl decl : func.decls) {
+                    AlloyParameter parameter = new AlloyParameter(decl.get().toString(), decl.expr.toString());
+                    parameters.add(parameter);
+                }
 
-            AlloyFunction newFunction = new AlloyFunction(func.toString(), parameters);
+                AlloyFunction newFunction = new AlloyFunction(func.toString(), parameters);
+                functions.add(newFunction);
+            }
+        }
+
+        // Get the assertions. Assertions take no parameters, so pass empty array
+        for ( Pair<java.lang.String,Expr> assertion : world.getAllAssertions()) {
+            AlloyFunction newFunction = new AlloyFunction(assertion.a, new ArrayList<>());
             functions.add(newFunction);
         }
 
