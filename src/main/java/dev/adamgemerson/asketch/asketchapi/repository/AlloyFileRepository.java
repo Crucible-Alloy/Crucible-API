@@ -18,6 +18,8 @@ import edu.mit.csail.sdg.ast.Sig.Field;
 import edu.mit.csail.sdg.parser.CompModule;
 import edu.mit.csail.sdg.parser.CompUtil;
 
+import javax.sound.midi.SysexMessage;
+
 @Component
 @Repository
 public class AlloyFileRepository {
@@ -63,11 +65,15 @@ public class AlloyFileRepository {
 
         for (Sig sig : world.getAllReachableSigs()) {
             if (!sig.builtin) {
-
+                System.out.println(sig.label);
                 // Get the relation object for each atom signature
                 ArrayList<AlloyRelation> relations = new ArrayList<>();
                 if (!sig.getFields().isEmpty()) {
                     for (Field relation : sig.getFields()) {
+                        System.out.println(relation.label);
+                        System.out.println(relation.decl().expr.toString());
+                        System.out.println(relation.type().toString());
+                        System.out.println("====");
                         AlloyRelation relationObject = new AlloyRelation(relation.label, relation.decl().expr.toString(), relation.type().toString());
                         relations.add(relationObject);
                     }
@@ -109,6 +115,7 @@ public class AlloyFileRepository {
 
         // Find the predicates and add them to our model.
         for (Func func : world.getAllFunc()) {
+            if (func.toString().equals("pred this/$$Default")) continue;
             if (func.isPred) {
                 ArrayList<AlloyParameter> parameters = new ArrayList<>();
                 for (Decl decl : func.decls) {
