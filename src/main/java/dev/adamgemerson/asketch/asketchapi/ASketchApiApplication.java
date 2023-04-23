@@ -11,7 +11,7 @@ public class ASketchApiApplication {
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(ASketchApiApplication.class);
         app.setDefaultProperties(Collections
-                .singletonMap("server.port", "10122"));
+                .singletonMap("server.port", "10121"));
         app.run(args);
     }
 }
