@@ -44,9 +44,9 @@ public class AlloyTestRepository {
         //Next 3 are about scope - we will need to probably infer these or ask the user to provide them
         //overall/bitwidth/maxseq - default is 3 for all
 
-        // TODO: Pass the max of a single atom Class as a parameter to all 3 parameters here.
         // If assertion check should be 'true', if predicate check should be false.
-        Command testCommand = new Command(false, maximum, maximum, maximum - 1, testCase);
+        System.out.println(maximum);
+        Command testCommand = new Command(false, maximum + 1, maximum, maximum, testCase);
 
         //These options configure "how" to run a command - what solver to use, what is the max memory the execution can use, etc.
         //We usually just set it up in a very bare-bones format - i.e. just set the SAT solver then use the default for everything else
